@@ -7,6 +7,33 @@ C = 'Chores.txt'
 daily_list = []
 chores_list = []
 
+def movingChore():
+    print('(Moving Chore...)')
+    print('\nWould you like to move\n1: Daily to Chore?\nor\n2:Chore to Daily?')
+    x = int(input('You Selected: '))
+    match x:
+        case 1:
+            y = input('What Chore would you like to move? ').lower()
+            chores_list.append(y + '\n')
+            daily_list.remove(y + '\n')
+        case 2:
+            print('\nWould you like to move\n1: a Specific Chore\nor\n2: a Random Chore?')
+            z = int(input('You Selected: '))
+            match z:
+                case 1:
+                    c = input('What Chore would you like to move? ').lower()
+                    daily_list.append(c + '\n')
+                    chores_list.remove(c + '\n')
+                case 2:
+                    n = int(input('\nHow Many Chores? '))
+                    print(n)
+                    new = random.sample(chores_list, n)
+                    for k in new:
+                        daily_list.append(k)
+                        chores_list.remove(k)
+        case _:
+            print('Error')
+
 def viewingChores():
     print('(Viewing Chores...)')
     print('\nChores:\n')
@@ -26,9 +53,7 @@ def generateList():
     new = random.sample(chores_list, n)
     for i in new:
         daily_list.append(i)
-        for j in chores_list:
-            if i == j:
-                chores_list.remove(j)
+        chores_list.remove(i)
 
     rewriteTextFile(DL, daily_list)
     rewriteTextFile(C, chores_list)
@@ -52,13 +77,13 @@ def viewList():
 def rewriteTextFile(filename, list):
     file = open(filename, 'w')
     for i in list:
-        file.write(i)
+        file.write(i.lower())
     file.close()
 
 def rewriteList(list, filename):
     file = open(filename, 'r')
     for i in file:
-        list.append(i)
+        list.append(i.lower())
     file.close()
 
 def main():
@@ -90,7 +115,7 @@ def main():
             case 6:
                 viewingChores()
             case 7:
-                print('(Moving Chore...)')
+                movingChore()
             case _:
                 print('Error')
 
